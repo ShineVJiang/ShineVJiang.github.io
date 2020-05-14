@@ -6,15 +6,35 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Falari | JiangVShine</title>
+  <title>“直观理解”卷积神经网络(一)：反卷积(Deconvnet) | JiangVShine</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="JiangVShine">
-<meta property="og:url" content="http://yoursite.com/tags/Falari/index.html">
+  <meta name="description" content="“直观理解”卷积神经网络(一)：反卷积(Deconvnet) “Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler  1. 简介时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“直观理解”卷积神经网络(一)：反卷积(Deconvnet)">
+<meta property="og:url" content="http://yoursite.com/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/index.html">
 <meta property="og:site_name" content="JiangVShine">
+<meta property="og:description" content="“直观理解”卷积神经网络(一)：反卷积(Deconvnet) “Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler  1. 简介时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/CNN.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/convnet_and_deconvnet.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/unmaxpooling.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/im2col.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/convmm.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/convmm2.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/col2im.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/visualization.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/feature_evolution.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/feature_invariance.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/occlusion.png">
+<meta property="article:published_time" content="2020-05-14T10:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-14T09:56:02.523Z">
 <meta property="article:author" content="JiangVShine">
+<meta property="article:tag" content="Neural Network">
+<meta property="article:tag" content="Visualization">
+<meta property="article:tag" content="反卷积">
+<meta property="article:tag" content="神经网络可视化">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/CNN.png">
   
     <link rel="alternative" href="/atom.xml" title="JiangVShine" type="application/atom+xml">
   
@@ -152,36 +172,90 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-“直观理解”卷积神经网络(一)：反卷积(Deconvnet)" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/13/falari/" class="archive-article-date">
-  	<time datetime="2020-05-13T11:13:23.327Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-13</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/13/falari/">falari</a>
+    <h1 class="article-title" itemprop="name">
+      “直观理解”卷积神经网络(一)：反卷积(Deconvnet)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/" class="archive-article-date">
+  	<time datetime="2020-05-14T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="“直观理解”卷积神经网络-一-：反卷积-Deconvnet"><a href="#“直观理解”卷积神经网络-一-：反卷积-Deconvnet" class="headerlink" title="“直观理解”卷积神经网络(一)：反卷积(Deconvnet)"></a>“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</h3><blockquote>
+<p>“Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler</p>
+</blockquote>
+<h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远领先第二名的26%。但大多数人并没有完全理解这些模型表现为何如此之好，模型的改善也就无从谈起。对于模型的直观理解迫在眉睫，而本文提到的反卷积技术(Matthew D.Zeiler)就是该领域的开山之作：该技术尝试在输入图片的像素空间中找出最大化激活某一特征的像素，实现了对应特征的可视化，其中反卷积的过程就是寻找像素的过程。借助反卷积，作者也探索了“模型训练过程中，特征的演化”、“分类结果相对于图片遮挡部位的敏感性”、“特征不变性”和“图片相关性”等问题。</p>
+<a id="more"></a>
+<h4 id="2-卷积网络和反卷积网络"><a href="#2-卷积网络和反卷积网络" class="headerlink" title="2. 卷积网络和反卷积网络"></a>2. 卷积网络和反卷积网络</h4><h5 id="2-1-卷积网络"><a href="#2-1-卷积网络" class="headerlink" title="2.1 卷积网络"></a>2.1 卷积网络</h5><p>一个典型的卷积神经网络模型由一系列层(layer)构成，将一张RGB图像x转化为一个向量y_hat，向量中的C个值对应了C类的可能性。当时，卷积网络还很单纯(没有shortcut connection、没有DW、PW Conv等)，每一层都由如下构成：</p>
+<ol>
+<li>卷积操作：采用一组训练得到的卷积核对上一层的输出作卷积。</li>
+<li>增加非线性：让卷积结果通过非线性函数，例如relu(x) = max(x, 0)。</li>
+<li>池化操作[<em>可选</em>]：取相邻元素的最大值(MaxPooling)或平均值(AveragePooling)，进行下采样；MaxPooling中池化索引记录了最大值对应的位置。最后添加全连接层和Softmax分类器，输出C个类别的可能性。<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/CNN.png" alt="CNN architecture" style="zoom: 75%;" />
+
+</li>
+</ol>
+<h5 id="2-2-反卷积网络"><a href="#2-2-反卷积网络" class="headerlink" title="2.2 反卷积网络"></a>2.2 反卷积网络</h5><p>为了理解卷积网络，需要理解中间层的特征值，反卷积网络提供了办法。反卷积网络的每一层都可以看做卷积网络中对应层的逆过程，它们拥有相同的卷积核和池化索引，因此反卷积将特征值逆映射回了输入图片的像素空间，借此说明图片中的哪些像素参与激活了该特征值。下图将卷积网络和反卷积网络的过程合并，展示了两者各层之间的关系，且两者在整体上互为逆过程：首先，卷积网络将一张图片作为输入，计算得到各层的特征表示；为了验证某层一个具体的特征值，我们将该层特征值之外的所有值置零后，将其作为反卷积网络的输入，经过反卷积网络每一层的操作，该特征值被映射回了输入图片的像素空间.</p>
+<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/convnet_and_deconvnet.png" alt="conv_and_deconv" style="zoom:75%;" />
+
+<p>反卷积网络有如下部分构成：</p>
+<ol>
+<li>反池化操作[<em>对应卷积网络*</em>池化操作***]：理论上，卷积网络中的最大池化操作是不可逆的，但我们可以通过池化索引进行近似可逆。下图是反池化过程：</li>
+</ol>
+<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/unmaxpooling.png" alt="unmaxpooling" style="zoom:70%;" />
+
+<ol start="2">
+<li>矫正[<em>对应卷积网络*</em>ReLU操作***]：卷积网络中采用ReLU确保特征值非负，为了确保正逆过程的一致性，我们将反卷积网络每一层的重构特征也通过ReLU得到非负值。</li>
+<li>反卷积操作[<em>对应卷积网络*</em>卷积操作***]：卷积操作是低效操作，主流神经网络框架都是通过im2col+矩阵乘法实现卷积，以空间换效率。输入中每个卷积窗口内的元素被拉直成为单独一列，这样输入就被转换为了H_out * W_out列的矩阵(Columns)，im2col由此得名；将卷积核也拉成一列后(Kernel)，左乘输入矩阵，得到卷积结果(Output)。im2col和矩阵乘法见如下两图。</li>
+</ol>
+<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/im2col.png" alt="img2col" style="zoom: 25%;" />
+
+<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/convmm.png" alt="convmm" style="zoom:25%;" />
+
+<p>本文中提到的反卷积操作其实是转置卷积，神经网络框架借助转置卷积实现梯度的反向传播：将卷积核矩阵转置(Weight_T)后，左乘梯度输出(GradOutput)，得到梯度列矩阵(GradColumns)，通过col2im还原到输入大小，便得到了相对于输入的梯度(GradInput)。</p>
+<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/convmm2.png" alt="deconvmm" style="zoom:25%;" />
+
+<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/col2im.png" alt="col2img" style="zoom:25%;" />
+
+<p>梯度的反向传播一般用于卷积网络的训练过程，通过梯度更新权重和偏正取值；而本文转置卷积不是用于梯度反向传播，操作对象不是梯度而是特征值。</p>
+<h4 id="3-卷积网络可视化"><a href="#3-卷积网络可视化" class="headerlink" title="3.卷积网络可视化"></a>3.卷积网络可视化</h4><p>使用上述的理论框架，我们就可以通过反卷积网络来“直观理解”特征值。</p>
+<h5 id="3-1-特征可视化"><a href="#3-1-特征可视化" class="headerlink" title="3.1 特征可视化"></a>3.1 特征可视化</h5><p>下图展示了训练完成后，各层特征值的可视化结果。对于某一层某一个特定位置的特征，选取了9个最大的激活值(由9张输入图片经过卷积网络生成)，并分别将其映射回输入图片的像素空间，可视化结果的旁边是特征对应的可视野范围的输入图片截图。从Layer1 Feature Maps中选了9个位置的特征值，每个特征值选了最能激活该值的9张图片；从Layer2 Feature Maps中选了16个位置的特征值，每个特征值选了最能激活该值的9张图片。<br>几点启示：</p>
+<ol>
+<li>原图的截图比可视化结果的多样性更大，因为后者仅仅关注了截图中有判别能力的结构。举例来说：层5第1行第2列的9张输入原图差异很大，但同一特征值的可视化结果都关注了背景中的草地。</li>
+<li>每层特征的可视化结构展示了各层的特点。层2展示了物体的轮廓和颜色的组合，每个特征的可视化结果大致相同(较小的不变性)；层3有了更复杂的不变性，主要是相似的纹理(1行1列的网格特征、2行4列的文本特征)；层4的不同特征对应的可视化结果有显著的差别，开始展现类与类之间的差异(1行1列都是狗狗的脸，4行2列都是鸟的腿)；层5的不同特征对应的可视化结果对应了类别间的物体的整体差异(不再是局部)(1行1列键盘，4行的狗)。因为可视野相应的变大了。</li>
+<li>每个特征值对应的9个可视化结果有很强的关联性。</li>
+<li>层次越高，不变性越强。</li>
+<li>可视化结果都是原图中辨识度最强的部分的夸张展现。</li>
+</ol>
+<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/visualization.png" alt="visualization"  />
+
+<h5 id="3-2-训练过程中特征的演化"><a href="#3-2-训练过程中特征的演化" class="headerlink" title="3.2 训练过程中特征的演化"></a>3.2 训练过程中特征的演化</h5><p>在每一层随机选取6个特征，在训练过程中的第[1,2,5,10,20,30,40,64]个epoch时，将样本中最强激活的特征映射回输入图片像素空间。可以看出：底层特征很快可以趋于稳定，但高层特征需要更多次的迭代才能收敛，证明了迭代次数的必要性。<br><img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/feature_evolution.png" alt="feature_evolution" style="zoom:80%;" /></p>
+<h5 id="3-3-特征不变性"><a href="#3-3-特征不变性" class="headerlink" title="3.3 特征不变性"></a>3.3 特征不变性</h5><p>下图第1列是5张示例图片的三种变换，分别为平移、缩放、旋转；列2和列3是层1和层7变换图和原图间的特征向量的欧几里得距离；列4是对应图片分类可能性的变化。总体来说：微小的变换对于低层的特征有显著地影响，而层越高，平移和缩放对结果的影响越小；但卷积网络无法对旋转操作产生不变性，除非物体有很强的不对称性。</p>
+<p><img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/feature_invariance.png" alt="feature_variation"></p>
+<h5 id="3-4-遮挡敏感性"><a href="#3-4-遮挡敏感性" class="headerlink" title="3.4 遮挡敏感性"></a>3.4 遮挡敏感性</h5><p>当模型的分类性能提高时，一个自然而然的想法就是：分类器究竟基于什么信息做出了判断？是基于图片中的物体，还是图片中与物体无关的上下文信息。基于错误的信息做出判断就会出现著名的“坦克分类问题”。下图采用灰色矩形遮挡输入图片的不同部分，并将遮挡后的图片输入网络得到分类器的输出，1~3行分别是博美犬、车轮和阿富汗猎犬；a列是原图，b列是遮挡不同部位后得到的第五层的热力图(选取了不遮挡图片最大激活值所在的通道)，c列是不遮挡原图第5层最大激活值的可视化结果，其余3张来自别的输入图片，d列是遮挡不同部位后，正确分类可能性的热力图，e列是遮挡不同部位后，最可能的分类结果。总体来说：</p>
+<ol>
+<li>b列说明：当遮挡了可视化结果对应的原图部位时，对应的特征值会急剧下降；</li>
+<li>d列说明：遮挡博美犬脸的部位、车轮部位、阿富汗犬部位，正确分类的可能性急剧下降。</li>
+</ol>
+<p><img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/occlusion.png" alt="occlusion"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -191,25 +265,123 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Falari</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Visualization</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">反卷积</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">神经网络可视化</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
+
   
 
-    
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#“直观理解”卷积神经网络-一-：反卷积-Deconvnet"><span class="toc-number">1.</span> <span class="toc-text">“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-简介"><span class="toc-number">1.1.</span> <span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-卷积网络和反卷积网络"><span class="toc-number">1.2.</span> <span class="toc-text">2. 卷积网络和反卷积网络</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-卷积网络"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 卷积网络</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-反卷积网络"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 反卷积网络</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-卷积网络可视化"><span class="toc-number">1.3.</span> <span class="toc-text">3.卷积网络可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-特征可视化"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 特征可视化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-训练过程中特征的演化"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 训练过程中特征的演化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-特征不变性"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3 特征不变性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-4-遮挡敏感性"><span class="toc-number">1.3.4.</span> <span class="toc-text">3.4 遮挡敏感性</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -232,9 +404,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
@@ -302,23 +474,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Markdown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">markdown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Neural Network</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Falari</a>
+                <a href="javascript:void(0)" class="js-tag color4">Visualization</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">反卷积</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">神经网络可视化</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,15 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>JiangVShine</title>
+  <title>“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation) | JiangVShine</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="JiangVShine">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation) Striving for Simplicity: The All Convolutional Net  1. 简介上一篇“直观理解”卷积神经网络(一)：反卷积(Deconvnet)提到：一个典型的卷积神经网络主要由卷积操作、非线性(ReLU)、池化操作等构成。很快，Jost Tobias Springen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)">
+<meta property="og:url" content="http://yoursite.com/2020/05/21/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%BA%8C)%EF%BC%9A%E5%AF%BC%E5%90%91%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD(Guided-Backpropagation)/index.html">
 <meta property="og:site_name" content="JiangVShine">
+<meta property="og:description" content="“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation) Striving for Simplicity: The All Convolutional Net  1. 简介上一篇“直观理解”卷积神经网络(一)：反卷积(Deconvnet)提到：一个典型的卷积神经网络主要由卷积操作、非线性(ReLU)、池化操作等构成。很快，Jost Tobias Springen">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/conv_s2.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/deconv_gbp.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/dconv_bp_gbp.png">
+<meta property="article:published_time" content="2020-05-21T13:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-21T15:28:26.563Z">
 <meta property="article:author" content="JiangVShine">
+<meta property="article:tag" content="Neural Network">
+<meta property="article:tag" content="Visualization">
+<meta property="article:tag" content="导向反向传播">
+<meta property="article:tag" content="神经网络可视化">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/conv_s2.png">
   
     <link rel="alternative" href="/atom.xml" title="JiangVShine" type="application/atom+xml">
   
@@ -152,16 +164,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/21/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%BA%8C)%EF%BC%9A%E5%AF%BC%E5%90%91%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD(Guided-Backpropagation)/">“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)</a>
+    <h1 class="article-title" itemprop="name">
+      “直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)
     </h1>
   
 
@@ -178,9 +188,23 @@
 <p><a href="https://arxiv.org/abs/1412.6806" target="_blank" rel="noopener">Striving for Simplicity: The All Convolutional Net</a></p>
 </blockquote>
 <h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>上一篇<a href="[https://shinevjiang.github.io/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/#more](https://shinevjiang.github.io/2020/05/14/"直观理解"卷积神经网络(一)：反卷积(Deconvnet)/#more)">“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</a>提到：一个典型的卷积神经网络主要由卷积操作、非线性(ReLU)、池化操作等构成。很快，Jost Tobias Springenberg 等人开始质疑池化操作的必要性，并提出了不包含池化操作的“全卷积网络”和对应的新可视化方法“导向反向传播”。</p>
-        
-          <a class="article-more-a" href="/2020/05/21/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%BA%8C)%EF%BC%9A%E5%AF%BC%E5%90%91%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD(Guided-Backpropagation)/#more">more >></a>
-        
+<a id="more"></a>
+
+<h4 id="2-全卷积网络"><a href="#2-全卷积网络" class="headerlink" title="2. 全卷积网络"></a>2. 全卷积网络</h4><p>想要质疑并去除池化操作，就需要先明白池化操作的作用。一般认为:池化操作通过成倍的缩小feature maps的尺寸(高、宽)，使得一个特征可覆盖的原图的范围(感受野Receptive Field)成倍的增大，这样高层的特征可以更快地表征图片的宏观信息。而将卷积操作的步幅(stride)设置为大于1的值，理论上可以获得与池化操作相同的效果；论文作者也通过CIFAR-10、CIFAR-100、ImageNet数据集上的不弱的分类性能 进一步说明了实际的可行性(感兴趣的朋友可以在原论文查看具体的网络结构和对比实验)。下图中，卷积操作步幅为2。(图片来源：附录2)</p>
+<img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/conv_s2.png" alt="conv_s=2" style="zoom: 67%;" />
+
+<h4 id="3-导向反向传播"><a href="#3-导向反向传播" class="headerlink" title="3. 导向反向传播"></a>3. 导向反向传播</h4><p>上一节提到的全卷积网络确实在公开数据集上取得了不俗的分类性能，但使用步幅为2的卷积替换掉池化 究竟对网络带来了怎样的影响呢？用我们上一篇文章提到的“反卷积”将 特征可视化看看吧，并没有达到预期效果，具体表现为：低层特征的可视化结果可以反应出特征学习到的内容，但高层特征的可视化结果不是清晰的、可辨认的结构(见下图最左侧)。还记得反卷积网络中反池化操作时利用的池化索引吗，这些索引记录了最大池化时最大值所在的位置。由于不同图片的池化索引各不相同，这样，即使是相同位置的特征通过反卷积网络后，可视化结果也完全不同(池化索引相当于给了不同图片独特的身份标识)。去掉池化层之后，图片的身份标识没有了，自然无法生成与原图对应的可视化结构。</p>
+<p>从原理上应该这样理解：低层特征的计算复杂度很小，对应原图的区域很小，仅仅学到了极小的不变性，因此最大激活低层特征的是单一的、固定的模式；而高层特征的计算复杂度很大，对应原图的区域很大，学到了极大地不变性表示，因此不存在单一图片中的单一模式最大化激活高层特征。合理的特征可视化应该针对一张输入图片进行，对丢失了图片身份标识的全卷积网络，使用反卷积网络进行可视化，显然无法取得很好的效果。</p>
+<p><img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/deconv_gbp.png" alt="deconv_gbp"></p>
+<p>还有什么办法可以衡量 图片的哪些部分最大化激活了一个特征吗？有的，那就是通过反向传播，计算该特征值相对于该输入图片的梯度。反向传播和反卷积最大的不同，就是数值通过通过ReLU时计算方式的不同。而导向反向传播可视化方法，上述两者的结合，细节见下图：b中的四行分别表示，经过ReLU时，前向传播、反向传播、反卷积、导向反向传播的不同之处：定义左侧为前向传播的输入列，右侧为前向传播的输出列，前向传播只向后传输入列大于0的值、反向传播只向前传梯度大于0(输入列大于零)的值、反卷积只向前传输出列大于0的值、导向反向传播综合前两者，只向前传输入列和输出列都大于0的值；c中的公式表达更为清晰。</p>
+<p>导向反向传播(Guided-Backpropagation)相当于对普通的反向传播加了指导，限制了小于0的梯度的回传，而梯度小于0的部分对应了原图中 削弱了我们想要可视化的特征 的部分，这些部分正是我们不想要的。还记得我们的目标吗，找出最大化激活某个特征的图片部分。有趣的是，导向反向传播在全卷积网络中也表现非常好，上图是模型高层特征(layer6/layer9)的反卷积(deconv)、导向反向传播(Guided-Backpropagation)可视化结果对比。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/75054200" target="_blank" rel="noopener">半小时学会Pytorch Hook</a>一文中通过pytorch模型中各层的hook函数，改变反向传播时对梯度的操作，用少量代码实现了导向反向传播。</p>
+<p><img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/dconv_bp_gbp.png" alt="deconv_bp_gbp"></p>
+<h4 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h4><ol>
+<li><a href="https://arxiv.org/abs/1412.6806" target="_blank" rel="noopener">Striving for Simplicity: The All Convolutional Net</a></li>
+<li><a href="https://arxiv.org/abs/1603.07285v1" target="_blank" rel="noopener">A guide to convolution arithmetic for deep learning</a></li>
+</ol>
+
       
 
       
@@ -214,16 +238,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/21/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%BA%8C)%EF%BC%9A%E5%AF%BC%E5%90%91%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD(Guided-Backpropagation)/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/21/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%BA%8C)%EF%BC%9A%E5%AF%BC%E5%90%91%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD(Guided-Backpropagation)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -238,104 +321,32 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-“直观理解”卷积神经网络(一)：反卷积(Deconvnet)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/">“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/" class="archive-article-date">
-  	<time datetime="2020-05-14T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="“直观理解”卷积神经网络-一-：反卷积-Deconvnet"><a href="#“直观理解”卷积神经网络-一-：反卷积-Deconvnet" class="headerlink" title="“直观理解”卷积神经网络(一)：反卷积(Deconvnet)"></a>“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</h3><blockquote>
-<p>“Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler</p>
-</blockquote>
-<h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远领先第二名的26%。但大多数人并没有完全理解这些模型表现为何如此之好，模型的改善也就无从谈起。对于模型的直观理解迫在眉睫，而本文提到的反卷积技术(Matthew D.Zeiler)就是该领域的开山之作：该技术尝试在输入图片的像素空间中找出最大化激活某一特征的像素，实现了对应特征的可视化，其中反卷积的过程就是寻找像素的过程。借助反卷积，作者也探索了“模型训练过程中，特征的演化”、“分类结果相对于图片遮挡部位的敏感性”、“特征不变性”和“图片相关性”等问题。</p>
-        
-          <a class="article-more-a" href="/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Neural Network</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Visualization</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">神经网络可视化</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">反卷积</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#“直观理解”卷积神经网络-二-：导向反向传播-Guided-Backpropagation"><span class="toc-number">1.</span> <span class="toc-text">“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-简介"><span class="toc-number">1.1.</span> <span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-全卷积网络"><span class="toc-number">1.2.</span> <span class="toc-text">2. 全卷积网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-导向反向传播"><span class="toc-number">1.3.</span> <span class="toc-text">3. 导向反向传播</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#附录"><span class="toc-number">1.4.</span> <span class="toc-text">附录</span></a></li></ol></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
+  
+  
+  
 
   
+
+  
+
   
 
 
@@ -358,8 +369,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

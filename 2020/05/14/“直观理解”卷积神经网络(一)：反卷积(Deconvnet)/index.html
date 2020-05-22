@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>“直观理解”卷积神经网络(一)：反卷积(Deconvnet) | JiangVShine</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="“直观理解”卷积神经网络(一)：反卷积(Deconvnet) “Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler  1. 简介时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远">
+  <meta name="description" content="“Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler  1. 简介时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远领先第二名的26%。但大多数人并没有完全理解这些模型表现为何">
 <meta property="og:type" content="article">
 <meta property="og:title" content="“直观理解”卷积神经网络(一)：反卷积(Deconvnet)">
 <meta property="og:url" content="http://yoursite.com/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/index.html">
 <meta property="og:site_name" content="JiangVShine">
-<meta property="og:description" content="“直观理解”卷积神经网络(一)：反卷积(Deconvnet) “Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler  1. 简介时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远">
+<meta property="og:description" content="“Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler  1. 简介时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远领先第二名的26%。但大多数人并没有完全理解这些模型表现为何">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/CNN.png">
 <meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/convnet_and_deconvnet.png">
@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/feature_invariance.png">
 <meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/occlusion.png">
 <meta property="article:published_time" content="2020-05-14T10:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-14T11:31:22.944Z">
+<meta property="article:modified_time" content="2020-05-22T01:47:09.285Z">
 <meta property="article:author" content="JiangVShine">
 <meta property="article:tag" content="Neural Network">
 <meta property="article:tag" content="Visualization">
@@ -192,7 +192,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="“直观理解”卷积神经网络-一-：反卷积-Deconvnet"><a href="#“直观理解”卷积神经网络-一-：反卷积-Deconvnet" class="headerlink" title="“直观理解”卷积神经网络(一)：反卷积(Deconvnet)"></a>“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</h3><blockquote>
+        <blockquote>
 <p>“Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler</p>
 </blockquote>
 <h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远领先第二名的26%。但大多数人并没有完全理解这些模型表现为何如此之好，模型的改善也就无从谈起。对于模型的直观理解迫在眉睫，而本文提到的反卷积技术(Matthew D.Zeiler)就是该领域的开山之作：该技术尝试在输入图片的像素空间中找出最大化激活某一特征的像素，实现了对应特征的可视化，其中反卷积的过程就是寻找像素的过程。借助反卷积，作者也探索了“模型训练过程中，特征的演化”、“分类结果相对于图片遮挡部位的敏感性”、“特征不变性”和“图片相关性”等问题。</p>
@@ -380,7 +380,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#“直观理解”卷积神经网络-一-：反卷积-Deconvnet"><span class="toc-number">1.</span> <span class="toc-text">“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-简介"><span class="toc-number">1.1.</span> <span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-卷积网络和反卷积网络"><span class="toc-number">1.2.</span> <span class="toc-text">2. 卷积网络和反卷积网络</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-卷积网络"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 卷积网络</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-反卷积网络"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 反卷积网络</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-卷积网络可视化"><span class="toc-number">1.3.</span> <span class="toc-text">3.卷积网络可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-特征可视化"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 特征可视化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-训练过程中特征的演化"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 训练过程中特征的演化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-特征不变性"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3 特征不变性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-4-遮挡敏感性"><span class="toc-number">1.3.4.</span> <span class="toc-text">3.4 遮挡敏感性</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#附录："><span class="toc-number">1.4.</span> <span class="toc-text">附录：</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-简介"><span class="toc-number">1.</span> <span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-卷积网络和反卷积网络"><span class="toc-number">2.</span> <span class="toc-text">2. 卷积网络和反卷积网络</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-卷积网络"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 卷积网络</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-反卷积网络"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 反卷积网络</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-卷积网络可视化"><span class="toc-number">3.</span> <span class="toc-text">3.卷积网络可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-特征可视化"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 特征可视化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-训练过程中特征的演化"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 训练过程中特征的演化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-特征不变性"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 特征不变性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-4-遮挡敏感性"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 遮挡敏感性</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#附录："><span class="toc-number">4.</span> <span class="toc-text">附录：</span></a></li></ol>
                     </div>
                 </span>
             </div>

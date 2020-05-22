@@ -174,10 +174,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="“直观理解”卷积神经网络-二-：导向反向传播-Guided-Backpropagation"><a href="#“直观理解”卷积神经网络-二-：导向反向传播-Guided-Backpropagation" class="headerlink" title="“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)"></a>“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)</h3><blockquote>
+        <blockquote>
 <p><a href="https://arxiv.org/abs/1412.6806" target="_blank" rel="noopener">Striving for Simplicity: The All Convolutional Net</a></p>
 </blockquote>
-<h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>上一篇<a href="[https://shinevjiang.github.io/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/#more](https://shinevjiang.github.io/2020/05/14/"直观理解"卷积神经网络(一)：反卷积(Deconvnet))提到：一个典型的卷积神经网络主要由卷积操作、非线性(ReLU">“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</a>、池化操作等构成。很快，Jost Tobias Springenberg 等人开始质疑池化操作的必要性，并提出了不包含池化操作的“全卷积网络”和对应的新可视化方法“导向反向传播”。</p>
+<h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>上一篇<a href="https://shinevjiang.github.io/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/" target="_blank" rel="noopener">“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</a>提到：一个典型的卷积神经网络主要由卷积操作、非线性(ReLU)、池化操作等构成。很快，Jost Tobias Springenberg 等人开始质疑池化操作的必要性，并提出了不包含池化操作的“全卷积网络”和对应的新可视化方法“导向反向传播”。</p>
         
           <a class="article-more-a" href="/2020/05/21/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%BA%8C)%EF%BC%9A%E5%AF%BC%E5%90%91%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD(Guided-Backpropagation)/#more">more >></a>
         
@@ -265,7 +265,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="“直观理解”卷积神经网络-一-：反卷积-Deconvnet"><a href="#“直观理解”卷积神经网络-一-：反卷积-Deconvnet" class="headerlink" title="“直观理解”卷积神经网络(一)：反卷积(Deconvnet)"></a>“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</h3><blockquote>
+        <blockquote>
 <p>“Visualizing and Understanding Convolutional Networks”  –  Matthew D.Zeiler</p>
 </blockquote>
 <h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p>时间倒退回2014年，大量基于卷积神经网络的模型在ImageNet数据集上的分类性能有了巨大的提升，其中翘楚当属AlexNet，凭借16.4%的准确率拿下2012年冠军，远远领先第二名的26%。但大多数人并没有完全理解这些模型表现为何如此之好，模型的改善也就无从谈起。对于模型的直观理解迫在眉睫，而本文提到的反卷积技术(Matthew D.Zeiler)就是该领域的开山之作：该技术尝试在输入图片的像素空间中找出最大化激活某一特征的像素，实现了对应特征的可视化，其中反卷积的过程就是寻找像素的过程。借助反卷积，作者也探索了“模型训练过程中，特征的演化”、“分类结果相对于图片遮挡部位的敏感性”、“特征不变性”和“图片相关性”等问题。</p>

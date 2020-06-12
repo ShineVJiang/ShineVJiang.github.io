@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/gradient_boosting.jpg">
 <meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/%E5%BC%95%E7%94%A8%E7%AC%A6%E6%8C%87%E9%92%88%E7%AC%A6.png">
 <meta property="article:published_time" content="2020-05-27T12:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-01T02:41:47.993Z">
+<meta property="article:modified_time" content="2020-06-12T07:41:54.706Z">
 <meta property="article:author" content="JiangVShine">
 <meta property="article:tag" content="随笔">
 <meta property="article:tag" content="总结">
@@ -254,11 +254,72 @@ X_{1}^{1}\\
 <li>顶层const和底层const，明确const修饰的对象</li>
 <li>const int *p (p是一个指针，指向常量）</li>
 <li>int *const p = &amp;m (p是一个常量指针，指向整形变量，需要初始化)</li>
+<li>被const修饰的变量必须初始化</li>
 </ul>
 <h6 id="数组名被当做指针使用"><a href="#数组名被当做指针使用" class="headerlink" title="数组名被当做指针使用"></a>数组名被当做指针使用</h6><h6 id="类的细节"><a href="#类的细节" class="headerlink" title="类的细节"></a>类的细节</h6><ul>
 <li>声明类时，成员数据可以声明在成员函数之后，编译器会处理</li>
 <li>假设在类内声明成员函数isbn，std::string isbn() const {return bookNo;}返回bookNo时，相当于return this-&gt;bookNo，而const就置于空形参列表之后做限定，相当于const SaleData *const this，限定this指向的是SaleData常量，不允许改变类成员数据的内容。</li>
-<li>定义返回 *this的函数：相当于把当前对象返回，接收类型是SaleData &amp;</li>
+<li>定义返回 *this的函数：相当于把当前对象返回 ，接收类型是SaleData &amp;</li>
+</ul>
+<h5 id="2020-06-01"><a href="#2020-06-01" class="headerlink" title="2020.06.01"></a>2020.06.01</h5><h6 id="C-：C-Primer-1-6章节习题"><a href="#C-：C-Primer-1-6章节习题" class="headerlink" title="C++：C++ Primer 1-6章节习题"></a>C++：C++ Primer 1-6章节习题</h6><p>数组不能被拷贝；当使用数组名时，使用的是指针。当必须使用数组作为形参进行传递时，void print10(const int (&amp;ia)[10])</p>
+<h6 id="GDBT-作为补充特征，提升分类效果"><a href="#GDBT-作为补充特征，提升分类效果" class="headerlink" title="GDBT 作为补充特征，提升分类效果"></a>GDBT 作为补充特征，提升分类效果</h6><h5 id="2020-06-02"><a href="#2020-06-02" class="headerlink" title="2020.06.02"></a>2020.06.02</h5><h6 id="C-：C-Primer-类-p237"><a href="#C-：C-Primer-类-p237" class="headerlink" title="C++：C++ Primer 类(p237)"></a>C++：C++ Primer 类(p237)</h6><ul>
+<li>构造函数：没有返回类型。默认构造函数：当类没有声明任何构造函数时</li>
+<li>Sales_data() = default：定义了非默认构造函数，该语句指定生成对应的默认构造函数</li>
+<li>Sale_data(const std::string &amp;s,unsigned n, double p): bookNo(s),units_sold(n),revenue(p*n) {} 新知识：非默认构造函数</li>
+</ul>
+<h5 id="2020-06-04"><a href="#2020-06-04" class="headerlink" title="2020.06.04"></a>2020.06.04</h5><h6 id="C-：面向对象编程OOP，封装、继承和多态"><a href="#C-：面向对象编程OOP，封装、继承和多态" class="headerlink" title="C++：面向对象编程OOP，封装、继承和多态"></a>C++：面向对象编程OOP，封装、继承和多态</h6><ul>
+<li>数据抽象:将类的接口和实现分离+数据封装</li>
+<li>继承:类的层次关系:class Hi: public Hello{ 定义 };</li>
+<li>多态：运行时绑定、动态绑定：基类指针或引用指向派生类对象</li>
+</ul>
+<h6 id="基类、派生类的定义"><a href="#基类、派生类的定义" class="headerlink" title="基类、派生类的定义"></a>基类、派生类的定义</h6><ul>
+<li>基类的两种成员函数，虚函数virtual希望派生类覆盖override</li>
+<li>virtual只出现在类内的声明部分，不用于类外部的函数定义</li>
+<li>基类的静态成员只有唯一的实例，且派生类遵循访问控制规则</li>
+<li>派生类中需要覆盖的函数 需要重新声明</li>
+<li>派生类构造函数:派生类使用基类的构造函数初始化基类部分</li>
+<li>类型转换:基类指针或引用指向派生类对象，将派生类转换成基类，反之不行</li>
+<li>对象之间不存在类型转换，派生类部分会被切掉</li>
+</ul>
+<h5 id="2020-06-05"><a href="#2020-06-05" class="headerlink" title="2020.06.05"></a>2020.06.05</h5><ul>
+<li>电脑图形界面崩掉，开始修复电脑</li>
+</ul>
+<h5 id="2020-06-08"><a href="#2020-06-08" class="headerlink" title="2020.06.08"></a>2020.06.08</h5><ul>
+<li>Linux 相关：配置apt源：/etc/apt/sources.list</li>
+<li>配置linux网卡：/etc/network/interfaces </li>
+<li>安装图形界面：ubuntu-desktop/xubuntu-desktop / kubunut-desktop</li>
+</ul>
+<h5 id="2020-06-09"><a href="#2020-06-09" class="headerlink" title="2020.06.09"></a>2020.06.09</h5><h6 id="python编程："><a href="#python编程：" class="headerlink" title="python编程："></a>python编程：</h6><ul>
+<li>再次使用os.walk():递归的遍历文件：for root,dirs,files in os.walk(‘./‘)，分别为当前根目录，根目录下的文件夹，根目录下的文件</li>
+<li>再次使用json：用于解析/编写json 文件</li>
+</ul>
+<h6 id="仿射变换：平移-线性变换"><a href="#仿射变换：平移-线性变换" class="headerlink" title="仿射变换：平移+线性变换"></a>仿射变换：平移+线性变换</h6><ul>
+<li>线性变换：线性代数中的变换，特点：变换前后，中心位置不变/平行线仍然平行</li>
+<li>仿射变换是在线性变换基础上 加上 平移</li>
+<li>在opencv中：仿射变换由3个点确定，需要定义3个点变换前后的坐标得到放射变换矩阵</li>
+</ul>
+<h5 id="2020-06-10"><a href="#2020-06-10" class="headerlink" title="2020.06.10"></a>2020.06.10</h5><h6 id="Cmake入门"><a href="#Cmake入门" class="headerlink" title="Cmake入门"></a>Cmake入门</h6><ul>
+<li>mkdir build; cd build; cmake ../ cmake命令需要找到CMakeList.txt，并在当前目录生成中间文件，包括Makefile;之后 make &amp;&amp; make install</li>
+<li>CMakeList.txt文件内容：cmake_minimum_required(VERSION 2.8) project(name)，详见git 项目 cmake_examples</li>
+</ul>
+<h6 id="Linux系统知识："><a href="#Linux系统知识：" class="headerlink" title="Linux系统知识："></a>Linux系统知识：</h6><ul>
+<li>从unix到linux，历史演变</li>
+<li>Linux系统中，一切皆是文件，文件都有权限，ls -l中的10列，第一列为文件类型，-表示普通文件，d表示目录，后面rwxrwxrwx为用户/组用户/others的读/写/执行权限，chmod 777(二进制数) 进行更改，chown用于更改文件用户</li>
+<li>Linux系统目录结构：bin二进制文件,sbin super用户的二进制文件，etc系统配置文件，dev设备，mnt挂在目录，lib库文件，boot系统启动文件，home各用户目录</li>
+<li>su(switch user)切换用户，如不指定，则切换root用户，su - 同时切换用户环境</li>
+<li>sudo普通用户以管理员身份执行命令，需要输入用户密码</li>
+<li>linux系统中文件没有后缀的概念，添加后缀是为了给人区分</li>
+<li>执行 二进制可执行文件 时需要指定路径，有三种方法：绝对路径，相对路径和将目录添加到系统环境变量中</li>
+</ul>
+<h5 id="2020-06-11"><a href="#2020-06-11" class="headerlink" title="2020.06.11"></a>2020.06.11</h5><h6 id="《机器学习》周志华"><a href="#《机器学习》周志华" class="headerlink" title="《机器学习》周志华"></a>《机器学习》周志华</h6><ul>
+<li>新的角度理解f1score，PR曲线，ROC 曲线和AUC</li>
+<li>逻辑回归为什么叫对数几率回归,是对ln(y/1-y)的线性回归</li>
+<li>再回顾贝叶斯决策器和朴素贝叶斯分类器</li>
+<li>再回顾集成学习中的boosting,bagging,stacking</li>
+</ul>
+<h6 id="聚类算法："><a href="#聚类算法：" class="headerlink" title="聚类算法："></a>聚类算法：</h6><ul>
+<li>k-means：目标是将类内的样本聚集在类的中心。随机初始化类中心，计算所有样本距离每个类中心的距离，划入最近的类;重新计算类中心</li>
+<li>yolo 中的anchor尺寸由聚类算法得到</li>
 </ul>
 
       
@@ -376,7 +437,7 @@ X_{1}^{1}\\
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#每日知识点总结"><span class="toc-number">1.</span> <span class="toc-text">每日知识点总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-05-27"><span class="toc-number">1.1.</span> <span class="toc-text">2020.05.27</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#正态分布-MLE-MAP"><span class="toc-number">1.1.1.</span> <span class="toc-text">正态分布+MLE+MAP</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#中心极限定理和正态分布"><span class="toc-number">1.1.2.</span> <span class="toc-text">中心极限定理和正态分布</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#集成学习-boosting-bagging"><span class="toc-number">1.1.3.</span> <span class="toc-text">集成学习(boosting&#x2F;bagging)</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-05-28"><span class="toc-number">1.2.</span> <span class="toc-text">2020.05.28</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#全概率、条件概率、乘法公式"><span class="toc-number">1.2.1.</span> <span class="toc-text">全概率、条件概率、乘法公式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#再看朴素贝叶斯"><span class="toc-number">1.2.2.</span> <span class="toc-text">再看朴素贝叶斯</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#再看生成式模型和判别式模型"><span class="toc-number">1.2.3.</span> <span class="toc-text">再看生成式模型和判别式模型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#激活函数的特点"><span class="toc-number">1.2.4.</span> <span class="toc-text">激活函数的特点</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-05-29"><span class="toc-number">1.3.</span> <span class="toc-text">2020.05.29</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#LATEX-学习"><span class="toc-number">1.3.1.</span> <span class="toc-text">LATEX 学习</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#概率论：随机试验、随机-基本事件、样本空间等"><span class="toc-number">1.3.2.</span> <span class="toc-text">概率论：随机试验、随机&#x2F;基本事件、样本空间等</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#C-：引用、指针-C-Primer-P50"><span class="toc-number">1.3.3.</span> <span class="toc-text">C++ ：引用、指针(C++ Primer P50)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2020-05-30"><span class="toc-number">1.3.4.</span> <span class="toc-text">2020.05.30</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#概率论：同济《概率与数理统计》全部内容"><span class="toc-number">1.3.5.</span> <span class="toc-text">概率论：同济《概率与数理统计》全部内容</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#const限定符-C-Primer"><span class="toc-number">1.3.6.</span> <span class="toc-text">const限定符(C++ Primer)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#数组名被当做指针使用"><span class="toc-number">1.3.7.</span> <span class="toc-text">数组名被当做指针使用</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#类的细节"><span class="toc-number">1.3.8.</span> <span class="toc-text">类的细节</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#每日知识点总结"><span class="toc-number">1.</span> <span class="toc-text">每日知识点总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-05-27"><span class="toc-number">1.1.</span> <span class="toc-text">2020.05.27</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#正态分布-MLE-MAP"><span class="toc-number">1.1.1.</span> <span class="toc-text">正态分布+MLE+MAP</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#中心极限定理和正态分布"><span class="toc-number">1.1.2.</span> <span class="toc-text">中心极限定理和正态分布</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#集成学习-boosting-bagging"><span class="toc-number">1.1.3.</span> <span class="toc-text">集成学习(boosting&#x2F;bagging)</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-05-28"><span class="toc-number">1.2.</span> <span class="toc-text">2020.05.28</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#全概率、条件概率、乘法公式"><span class="toc-number">1.2.1.</span> <span class="toc-text">全概率、条件概率、乘法公式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#再看朴素贝叶斯"><span class="toc-number">1.2.2.</span> <span class="toc-text">再看朴素贝叶斯</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#再看生成式模型和判别式模型"><span class="toc-number">1.2.3.</span> <span class="toc-text">再看生成式模型和判别式模型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#激活函数的特点"><span class="toc-number">1.2.4.</span> <span class="toc-text">激活函数的特点</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-05-29"><span class="toc-number">1.3.</span> <span class="toc-text">2020.05.29</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#LATEX-学习"><span class="toc-number">1.3.1.</span> <span class="toc-text">LATEX 学习</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#概率论：随机试验、随机-基本事件、样本空间等"><span class="toc-number">1.3.2.</span> <span class="toc-text">概率论：随机试验、随机&#x2F;基本事件、样本空间等</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#C-：引用、指针-C-Primer-P50"><span class="toc-number">1.3.3.</span> <span class="toc-text">C++ ：引用、指针(C++ Primer P50)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2020-05-30"><span class="toc-number">1.3.4.</span> <span class="toc-text">2020.05.30</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#概率论：同济《概率与数理统计》全部内容"><span class="toc-number">1.3.5.</span> <span class="toc-text">概率论：同济《概率与数理统计》全部内容</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#const限定符-C-Primer"><span class="toc-number">1.3.6.</span> <span class="toc-text">const限定符(C++ Primer)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#数组名被当做指针使用"><span class="toc-number">1.3.7.</span> <span class="toc-text">数组名被当做指针使用</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#类的细节"><span class="toc-number">1.3.8.</span> <span class="toc-text">类的细节</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-06-01"><span class="toc-number">1.4.</span> <span class="toc-text">2020.06.01</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#C-：C-Primer-1-6章节习题"><span class="toc-number">1.4.1.</span> <span class="toc-text">C++：C++ Primer 1-6章节习题</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#GDBT-作为补充特征，提升分类效果"><span class="toc-number">1.4.2.</span> <span class="toc-text">GDBT 作为补充特征，提升分类效果</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-06-02"><span class="toc-number">1.5.</span> <span class="toc-text">2020.06.02</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#C-：C-Primer-类-p237"><span class="toc-number">1.5.1.</span> <span class="toc-text">C++：C++ Primer 类(p237)</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-06-04"><span class="toc-number">1.6.</span> <span class="toc-text">2020.06.04</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#C-：面向对象编程OOP，封装、继承和多态"><span class="toc-number">1.6.1.</span> <span class="toc-text">C++：面向对象编程OOP，封装、继承和多态</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#基类、派生类的定义"><span class="toc-number">1.6.2.</span> <span class="toc-text">基类、派生类的定义</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-06-05"><span class="toc-number">1.7.</span> <span class="toc-text">2020.06.05</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-06-08"><span class="toc-number">1.8.</span> <span class="toc-text">2020.06.08</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-06-09"><span class="toc-number">1.9.</span> <span class="toc-text">2020.06.09</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#python编程："><span class="toc-number">1.9.1.</span> <span class="toc-text">python编程：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#仿射变换：平移-线性变换"><span class="toc-number">1.9.2.</span> <span class="toc-text">仿射变换：平移+线性变换</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-06-10"><span class="toc-number">1.10.</span> <span class="toc-text">2020.06.10</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Cmake入门"><span class="toc-number">1.10.1.</span> <span class="toc-text">Cmake入门</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Linux系统知识："><span class="toc-number">1.10.2.</span> <span class="toc-text">Linux系统知识：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2020-06-11"><span class="toc-number">1.11.</span> <span class="toc-text">2020.06.11</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#《机器学习》周志华"><span class="toc-number">1.11.1.</span> <span class="toc-text">《机器学习》周志华</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#聚类算法："><span class="toc-number">1.11.2.</span> <span class="toc-text">聚类算法：</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -509,14 +570,6 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Neural Network</a>
               </li>
              
@@ -525,7 +578,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">导向反向传播</a>
+                <a href="javascript:void(0)" class="js-tag color4">反卷积</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -533,7 +586,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">反卷积</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">导向反向传播</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,15 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 神经网络可视化 | JiangVShine</title>
+  <title>一文搞懂熵(Entropy),交叉熵(Cross-Entropy) | JiangVShine</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="JiangVShine">
-<meta property="og:url" content="http://yoursite.com/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%AF%E8%A7%86%E5%8C%96/index.html">
+  <meta name="description" content="本文整理&#x2F;翻译自Medium的系列文章Demystifying Entropy, Demystifying Cross-Entropy, Demystifying KL Divergence  1. 熵(Entropy)1.1 混乱程度，不确定性，还是信息量?不同的人对熵有不同的解释：混乱程度，不确定性，惊奇程度，不可预测性，信息量等等，面对如此多的解释，第一次接触时难免困惑。本文第一部分，让我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文搞懂熵(Entropy),交叉熵(Cross-Entropy)">
+<meta property="og:url" content="http://yoursite.com/2020/06/16/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E7%86%B5(Entropy),%E4%BA%A4%E5%8F%89%E7%86%B5(Cross-Entropy)/index.html">
 <meta property="og:site_name" content="JiangVShine">
+<meta property="og:description" content="本文整理&#x2F;翻译自Medium的系列文章Demystifying Entropy, Demystifying Cross-Entropy, Demystifying KL Divergence  1. 熵(Entropy)1.1 混乱程度，不确定性，还是信息量?不同的人对熵有不同的解释：混乱程度，不确定性，惊奇程度，不可预测性，信息量等等，面对如此多的解释，第一次接触时难免困惑。本文第一部分，让我">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/encode_decode.png">
+<meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/tokyo_p.png">
+<meta property="article:published_time" content="2020-06-16T13:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-17T15:55:35.634Z">
 <meta property="article:author" content="JiangVShine">
+<meta property="article:tag" content="熵">
+<meta property="article:tag" content="交叉熵">
+<meta property="article:tag" content="Entropy">
+<meta property="article:tag" content="Cross-Entropy在[Demystifying Entropy](https:&#x2F;&#x2F;medium.com&#x2F;activating-robotic-minds&#x2F;demystifying-entropy-f2c3221e2550), Demystifying Cross-Entropy, Demystifying KL Divergence">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/encode_decode.png">
   
     <link rel="alternative" href="/atom.xml" title="JiangVShine" type="application/atom+xml">
   
@@ -152,122 +163,370 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-一文搞懂熵(Entropy),交叉熵(Cross-Entropy)" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/21/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%BA%8C)%EF%BC%9A%E5%AF%BC%E5%90%91%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD(Guided-Backpropagation)/" class="archive-article-date">
-  	<time datetime="2020-05-21T13:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/21/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%BA%8C)%EF%BC%9A%E5%AF%BC%E5%90%91%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD(Guided-Backpropagation)/">“直观理解”卷积神经网络(二)：导向反向传播(Guided-Backpropagation)</a>
+    <h1 class="article-title" itemprop="name">
+      一文搞懂熵(Entropy),交叉熵(Cross-Entropy)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/06/16/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E7%86%B5(Entropy),%E4%BA%A4%E5%8F%89%E7%86%B5(Cross-Entropy)/" class="archive-article-date">
+  	<time datetime="2020-06-16T13:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文整理/翻译自Medium的系列文章<a href="https://medium.com/activating-robotic-minds/demystifying-entropy-f2c3221e2550" target="_blank" rel="noopener">Demystifying Entropy</a>, <a href="https://medium.com/activating-robotic-minds/demystifying-cross-entropy-e80e3ad54a8" target="_blank" rel="noopener">Demystifying Cross-Entropy</a>, <a href="https://medium.com/activating-robotic-minds/demystifying-kl-divergence-7ebe4317ee68" target="_blank" rel="noopener">Demystifying KL Divergence</a></p>
+</blockquote>
+<h4 id="1-熵-Entropy"><a href="#1-熵-Entropy" class="headerlink" title="1. 熵(Entropy)"></a>1. 熵(Entropy)</h4><h5 id="1-1-混乱程度，不确定性，还是信息量"><a href="#1-1-混乱程度，不确定性，还是信息量" class="headerlink" title="1.1 混乱程度，不确定性，还是信息量?"></a>1.1 混乱程度，不确定性，还是信息量?</h5><p>不同的人对熵有不同的解释：混乱程度，不确定性，惊奇程度，不可预测性，信息量等等，面对如此多的解释，第一次接触时难免困惑。本文第一部分，让我们先一起搞明白 熵 究竟是什么？</p>
+<p>熵的概念首次被香农提出，目的是寻找一种高效/无损地编码信息的方法：以编码后数据的平均长度来衡量高效性，平均长度越小越高效；同时还需满足“无损”的条件，即编码后不能有原始信息的丢失。这样，香农提出了熵的定义：无损编码事件信息的最小平均编码长度。</p>
+<p><img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/encode_decode.png" alt="encode_decode" style="zoom:80%;" /><br><a id="more"></a></p>
+<h5 id="1-2-计算编码长度"><a href="#1-2-计算编码长度" class="headerlink" title="1.2 计算编码长度"></a>1.2 计算编码长度</h5><p>上文提到了熵的定义：无损编码事件信息的最小平均编码长度。编码长度容易理解，但何来的最小，又何来的平均呢？下面以一个例子来说明：假设我们采用二进制编码东京的天气信息，并传输至纽约，其中东京的天气状态有4种可能，对应的概率如下图，每个可能性需要1个编码，东京的天气共需要4个编码。让我们采用3种编码方式，并对比下编码长度。不难发现，方式3编码长度最小，且是平均意义上的最小。方式3胜出的原因在于：对高可能性事件(Fine,Cloudy)用短编码，对低可能性事件(Rainy,Snow)用长编码。表中的3种方式，像是尝试的过程，那么能否直接计算出服从某一概率分布的事件的最小平均编码长度呢？还句话说，能不能直接计算熵？</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>编码方式</th>
+<th>Fine(50%)</th>
+<th>Cloudy(25%)</th>
+<th>Rainy(12.5%)</th>
+<th>Snow(12.5%)</th>
+<th>编码长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方式1</td>
+<td>10</td>
+<td>110</td>
+<td>0</td>
+<td>111</td>
+<td>2✖50%+3✖25%+1✖12.5%+3✖12.5%=2.25</td>
+</tr>
+<tr>
+<td>方式2</td>
+<td>0</td>
+<td>110</td>
+<td>10</td>
+<td>111</td>
+<td>1✖50%+3✖25%+2✖12.5%+3✖12.5%=1.875</td>
+</tr>
+<tr>
+<td>方式3</td>
+<td>0</td>
+<td>10</td>
+<td>110</td>
+<td>111</td>
+<td>1✖50%+2✖25%+3✖12.5%+3✖12.5%=1.75</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/tokyo_p.png" alt="Tokyo_weather" style="zoom:80%;" /></p>
+<h5 id="1-3-直接计算熵"><a href="#1-3-直接计算熵" class="headerlink" title="1.3 直接计算熵"></a>1.3 直接计算熵</h5><p>假设一个信息事件有8种可能的状态，且各状态等可能性，即可能性都是12.5%=1/8。我们需要多少位来编码8个值呢？1位可以编码2个值(0或1)，2位可以编码2✖2=4个值(00,01,10,11)，则8个值需要3位，2✖2✖2=8(000,001,010,011,100,101,110,111)。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>A(12.5%)</th>
+<th>B(12.5%)</th>
+<th>C(12.5%)</th>
+<th>D(12.5%)</th>
+<th>E(12.5%)</th>
+<th>F(12.5%)</th>
+<th>G(12.5%)</th>
+<th>H(12.5%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>000</td>
+<td>001</td>
+<td>010</td>
+<td>011</td>
+<td>100</td>
+<td>101</td>
+<td>110</td>
+<td>111</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>我们不能减少任何1位，因为那样会造成歧义，同样我们也不要多于3位来编码8个可能的值。归纳来看，对于具有N种等可能性状态的信息，每种状态的可能性P = 1/N，编码该信息所需的最小编码长度为：</p>
+<script type="math/tex; mode=display">
+\log_2{N} = - \log_2{\frac{1}{N}} = -\log_2{P}</script><p>那么计算平均最小长度，也就是熵的公式为：</p>
+<script type="math/tex; mode=display">
+Entropy = -\sum_{i}P(i)\log_2{P(i)}</script><p>其中P(i)是第i个信息状态的可能性。</p>
+<p>回头看看上述编码东京天气的例子，熵 = 1 <em> 50% + 2 </em> 25% + 3 <em> 12.5% + 3 </em> 12.5% = 1.75</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Fine(50%)</th>
+<th>Cloudy(25%)</th>
+<th>Rainy(12.5%)</th>
+<th>Snow(12.5%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>10</td>
+<td>110</td>
+<td>111</td>
+</tr>
+<tr>
+<td>-log(50%) = 1</td>
+<td>-log(25%) = 2</td>
+<td>-log(12.5%) = 3</td>
+<td>-log(12.5%) = 3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="1-4-熵的直观解释"><a href="#1-4-熵的直观解释" class="headerlink" title="1.4 熵的直观解释"></a>1.4 熵的直观解释</h5><p>那么熵的那些描述和解释(混乱程度，不确定性，惊奇程度，不可预测性，信息量等)代表了什么呢？</p>
+<p>如果熵比较大(即平均编码长度较长)，意味着这一信息有较多的可能状态，相应的每个状态的可能性比较低；因此每当来了一个新的信息，我们很难对其作出准确预测，即有着比较大的混乱程度/不确定性/不可预测性。</p>
+<p>并且当一个罕见的信息到达时，比一个常见的信息有着更多的信息量，因为它排除了别的很多的可能性，告诉了我们一个确切的信息。在天气的例子中，Rainy发生的概率为12.5%，当接收到该信息时，我们减少了87.5%的不确定性(Fine,Cloudy,Snow)；如果接收到Fine(50%)的消息，我们只减少了50%的不确定性。</p>
+<h4 id="2-交叉熵-Cross-Entropy"><a href="#2-交叉熵-Cross-Entropy" class="headerlink" title="2. 交叉熵(Cross-Entropy)"></a>2. 交叉熵(Cross-Entropy)</h4><h5 id="2-1-交叉熵损失函数？二分类交叉熵？"><a href="#2-1-交叉熵损失函数？二分类交叉熵？" class="headerlink" title="2.1 交叉熵损失函数？二分类交叉熵？"></a>2.1 交叉熵损失函数？二分类交叉熵？</h5><p>熟悉机器学习的人都知道分类模型中会使用交叉熵作损失函数，也一定对吴恩达的机器学习视频中猫分类器使用的二分类交叉熵印象深刻，但交叉熵究竟是什么？本文的第二部分，让我们一起搞明白交叉熵。字面上看，交叉熵分两部分“交叉”和“熵”，首先回顾下熵的公式吧。</p>
+<h5 id="2-2-熵的公式"><a href="#2-2-熵的公式" class="headerlink" title="2.2 熵的公式"></a>2.2 熵的公式</h5><p>上文中已知一个离散变量 i 的概率分布P(i)，熵的公式可以表示为：</p>
+<script type="math/tex; mode=display">
+Entropy = -\sum_{i}P(i)\log_2{P(i)}</script><p>同理，对于连续变量 x 的概率分布P(x)，熵的公式可以表示为：</p>
+<script type="math/tex; mode=display">
+Entropy = -\int P(x)\log_2{P(x)}dx</script><p>在熵的公式中，对于离散变量和连续变量，我们都是计算了 负的可能性的对数 的期望，代表了该事件理论上的平均最小编码长度，所以熵的公式也可表示如下，公式中的x~P代表我们使用概率分布P来计算期望，熵又可以简写为H：</p>
+<script type="math/tex; mode=display">
+H(P) = Entropy = \mathbb{E}_{x\sim{P}}[-\log{P(x)}]</script><p>重要的事情再说一遍：“熵是服从某一特定概率分布事件的理论最小平均编码长度”，只要我们知道了任何事件的概率分布，我们就可以计算它的熵；那如果我们不知道事件的概率分布，又想计算熵，该怎么做呢？那我们来对熵做一个估计吧，熵的估计的过程自然而然的引出了交叉熵。</p>
+<h5 id="2-3-熵的估计"><a href="#2-3-熵的估计" class="headerlink" title="2.3 熵的估计"></a>2.3 熵的估计</h5><p>假如我们现在需要预报东京天气，在真实天气发生之前，我们不可能知道天气的概率分布；但为了下文的讨论，我们需要假设：对东京天气做一段时间的观测后，可以得到真实的概率分布P。</p>
+<p>在观测之前，我们只有预估的概率分布Q，使用估计得到的概率分布，可以计算估计的熵：</p>
+<script type="math/tex; mode=display">
+EstimatedEntropy =\mathbb{E}_{x\sim{Q}}[-\log{Q(x)}]</script><p>如果Q是真实的概率分布，根据上述公式，我们已经得到了编码东京天气信息的最小平均长度；然而估计的概率分布为我们的公式引入了两部分的不确定性：</p>
+<ul>
+<li>计算期望的概率分布是Q，与真实的概率分布P不同。</li>
+<li>计算最小编码长度的概率是 -logQ，与真实的最小编码长度 -logP 不同。</li>
+</ul>
+<p>因为估计的概率分布Q影响了上述两个部分(期望和编码长度)，所以得到的结果很可能错得离谱，也因此该结果和真实熵的对比无意义。和香农的目标一样，我们希望编码长度尽可能的短，所以我们需要对比我们的编码长度和理论上的最小编码长度(熵)。假设经过观测后，我们得到了真实概率分布P，在天气预报时，就可以使用P计算平均编码长度，实际编码长度基于Q计算，这个计算结果就是P和Q的交叉熵。这样，实际编码长度和理论最小编码长度就有了对比的意义。</p>
+<script type="math/tex; mode=display">
+CrossEntropy =\mathbb{E}_{x\sim{P}}[-\log{Q(x)}] \\
+Entropy = \mathbb{E}_{x\sim{P}}[-\log{P(x)}]</script><h5 id="2-4-交叉熵-gt-熵"><a href="#2-4-交叉熵-gt-熵" class="headerlink" title="2.4 交叉熵 &gt;= 熵"></a>2.4 交叉熵 &gt;= 熵</h5><p>交叉熵使用H(P,Q)表示，意味着使用P计算期望，使用Q计算编码长度；所以H(P,Q)并不一定等于H(Q,P)，除了在P=Q的情况下，H(P,Q) = H(Q,P) = H(P)。</p>
+<script type="math/tex; mode=display">
+H(P,Q) =\mathbb{E}_{x\sim{P}}[-\log{Q(x)}]</script><p>有一点很微妙但很重要：对于期望，我们使用真实概率分布P来计算；对于编码长度，我们使用假设的概率分布Q来计算，因为它是预估用于编码信息的。因为熵是理论上的平均最小编码长度，所以交叉熵只可能大于等于熵。换句话说，如果我们的估计是完美的，即Q=P，那么有H(P,Q) = H(P)，否则，H(P,Q) &gt; H(P)。</p>
+<p>至此，交叉熵和熵的关系应该比较明确了，下面让我们看看为什么要使用交叉熵作分类损失函数。</p>
+<h5 id="2-5-交叉熵作为损失函数"><a href="#2-5-交叉熵作为损失函数" class="headerlink" title="2.5 交叉熵作为损失函数"></a>2.5 交叉熵作为损失函数</h5><p>假设一个动物照片的数据集中有5种动物，且每张照片中只有一只动物，每张照片的标签都是one-hot编码。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Animal</th>
+<th>Dog</th>
+<th>Fox</th>
+<th>Horse</th>
+<th>Eagle</th>
+<th>Squirrel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Label</td>
+<td>[1,0,0,0,0]</td>
+<td>[0,1,0,0,0]</td>
+<td>[0,0,1,0,0]</td>
+<td>[0,0,0,1,0]</td>
+<td>[0,0,0,0,1]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>第一张照片是狗的概率为100%，是其他的动物的概率是0；第二张照片是狐狸的概率是100%，是其他动物的概率是0，其余照片同理；因此可以计算下，每张照片的熵都为0。换句话说，以one-hot编码作为标签的每张照片都有100%的确定度，不像别的描述概率的方式：狗的概率为90%，猫的概率为10%。</p>
+<p>假设有两个机器学习模型对第一张照片分别作出了预测：Q1和Q2,而第一张照片的真实标签为[1,0,0,0,0]。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td>[0.4, 0.3, 0.05, 0.05, 0.2]</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>[0.98, 0.01, 0, 0, 0.01]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>两个模型预测效果如何呢，可以分别计算下交叉熵：</p>
+<script type="math/tex; mode=display">
+H(P_1,Q_1) =-\sum_{i}P_1(i)\log_2{Q_1(i)}\\
+= -(1\log{0.4}+0\log{0.3}+0\log{0.05}+0\log{0.05}+0\log{0.2}) \approx 0.916\\</script><script type="math/tex; mode=display">
+H(P_1,Q_2) =-\sum_{i}P_1(i)\log_2{Q_2(i)}\\
+= -(1\log{0.98}+0\log{0.01}+0\log{0}+0\log{0}+0\log{0.01}) \approx 0.02\\</script><p>交叉熵对比了模型的预测结果和数据的真实标签，随着预测越来越准确，交叉熵的值越来越小，如果预测完全正确，交叉熵的值就为0。因此，训练分类模型时，可以使用交叉熵作为损失函数。</p>
+<h5 id="2-5-二分类交叉熵"><a href="#2-5-二分类交叉熵" class="headerlink" title="2.5 二分类交叉熵"></a>2.5 二分类交叉熵</h5><p>在二分类模型中，标签只有是和否两种；这时，可以使用二分类交叉熵作为损失函数。假设数据集中只有猫和狗的照片，则交叉熵公式中只包含两种可能性：</p>
+<script type="math/tex; mode=display">
+H(P,Q) =-\sum_{i=(cat,dog)}P(i)\log{Q(i)}\\
+=-P(cat)\log{Q(cat)} - P(dog)\log{Q(dog)}</script><p>又因为：</p>
+<script type="math/tex; mode=display">
+P(cat) = 1 - P(dog)</script><p>所以交叉熵可以表示为：</p>
+<script type="math/tex; mode=display">
+H(P,Q)=-P(cat)\log{Q(cat)} - （1-P(cat))\log{(1-P(cat))}</script><p>使用如下定义：</p>
+<script type="math/tex; mode=display">
+P = P(cat)\\
+\tilde{P} = Q(cat)</script><p>二分类的交叉熵可以写作如下形式，看起来就熟悉多了。</p>
+<script type="math/tex; mode=display">
+BinaryCrossEntropy =-P\log{\tilde{P}} - （1-P)\log{(1-\tilde{P})}</script>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Neural Network</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">熵</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Visualization</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">交叉熵</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">神经网络可视化</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Entropy</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">导向反向传播</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Cross-Entropy在[Demystifying Entropy](https://medium.com/activating-robotic-minds/demystifying-entropy-f2c3221e2550), Demystifying Cross-Entropy, Demystifying KL Divergence</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/16/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E7%86%B5(Entropy),%E4%BA%A4%E5%8F%89%E7%86%B5(Cross-Entropy)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/" class="archive-article-date">
-  	<time datetime="2020-05-14T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/27/%E6%AF%8F%E6%97%A5%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">每日知识点总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/14/%E2%80%9C%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E2%80%9D%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(%E4%B8%80)%EF%BC%9A%E5%8F%8D%E5%8D%B7%E7%A7%AF(Deconvnet)/">“直观理解”卷积神经网络(一)：反卷积(Deconvnet)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Neural Network</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Visualization</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">反卷积</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">神经网络可视化</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-熵-Entropy"><span class="toc-number">1.</span> <span class="toc-text">1. 熵(Entropy)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-混乱程度，不确定性，还是信息量"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 混乱程度，不确定性，还是信息量?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-计算编码长度"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 计算编码长度</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-直接计算熵"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 直接计算熵</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-熵的直观解释"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 熵的直观解释</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-交叉熵-Cross-Entropy"><span class="toc-number">2.</span> <span class="toc-text">2. 交叉熵(Cross-Entropy)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-交叉熵损失函数？二分类交叉熵？"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 交叉熵损失函数？二分类交叉熵？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-熵的公式"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 熵的公式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3-熵的估计"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 熵的估计</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4-交叉熵-gt-熵"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 交叉熵 &gt;&#x3D; 熵</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-5-交叉熵作为损失函数"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 交叉熵作为损失函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-5-二分类交叉熵"><span class="toc-number">2.6.</span> <span class="toc-text">2.5 二分类交叉熵</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -290,9 +549,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

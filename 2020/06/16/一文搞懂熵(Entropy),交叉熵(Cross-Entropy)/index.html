@@ -18,12 +18,12 @@
 <meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/encode_decode.png">
 <meta property="og:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/tokyo_p.png">
 <meta property="article:published_time" content="2020-06-16T13:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-17T15:55:35.634Z">
+<meta property="article:modified_time" content="2020-06-18T03:15:48.624Z">
 <meta property="article:author" content="JiangVShine">
 <meta property="article:tag" content="熵">
 <meta property="article:tag" content="交叉熵">
 <meta property="article:tag" content="Entropy">
-<meta property="article:tag" content="Cross-Entropy在[Demystifying Entropy](https:&#x2F;&#x2F;medium.com&#x2F;activating-robotic-minds&#x2F;demystifying-entropy-f2c3221e2550), Demystifying Cross-Entropy, Demystifying KL Divergence">
+<meta property="article:tag" content="Cross-Entropy">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/encode_decode.png">
   
@@ -209,7 +209,7 @@
 <td>110</td>
 <td>0</td>
 <td>111</td>
-<td>2✖50%+3✖25%+1✖12.5%+3✖12.5%=2.25</td>
+<td>2×50%+3×25%+1×12.5%+3×12.5%=2.25</td>
 </tr>
 <tr>
 <td>方式2</td>
@@ -217,7 +217,7 @@
 <td>110</td>
 <td>10</td>
 <td>111</td>
-<td>1✖50%+3✖25%+2✖12.5%+3✖12.5%=1.875</td>
+<td>1×50%+3×25%+2×12.5%+3×12.5%=1.875</td>
 </tr>
 <tr>
 <td>方式3</td>
@@ -225,13 +225,13 @@
 <td>10</td>
 <td>110</td>
 <td>111</td>
-<td>1✖50%+2✖25%+3✖12.5%+3✖12.5%=1.75</td>
+<td>1×50%+2×25%+3×12.5%+3×12.5%=1.75</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p><img src="https://jwspicbed.oss-cn-shenzhen.aliyuncs.com/blog/tokyo_p.png" alt="Tokyo_weather" style="zoom:80%;" /></p>
-<h5 id="1-3-直接计算熵"><a href="#1-3-直接计算熵" class="headerlink" title="1.3 直接计算熵"></a>1.3 直接计算熵</h5><p>假设一个信息事件有8种可能的状态，且各状态等可能性，即可能性都是12.5%=1/8。我们需要多少位来编码8个值呢？1位可以编码2个值(0或1)，2位可以编码2✖2=4个值(00,01,10,11)，则8个值需要3位，2✖2✖2=8(000,001,010,011,100,101,110,111)。</p>
+<h5 id="1-3-直接计算熵"><a href="#1-3-直接计算熵" class="headerlink" title="1.3 直接计算熵"></a>1.3 直接计算熵</h5><p>假设一个信息事件有8种可能的状态，且各状态等可能性，即可能性都是12.5%=1/8。我们需要多少位来编码8个值呢？1位可以编码2个值(0或1)，2位可以编码2×2=4个值(00,01,10,11)，则8个值需要3位，2×2×2=8(000,001,010,011,100,101,110,111)。</p>
 <div class="table-container">
 <table>
 <thead>
@@ -408,7 +408,7 @@ BinaryCrossEntropy =-P\log{\tilde{P}} - （1-P)\log{(1-\tilde{P})}</script>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Cross-Entropy在[Demystifying Entropy](https://medium.com/activating-robotic-minds/demystifying-entropy-f2c3221e2550), Demystifying Cross-Entropy, Demystifying KL Divergence</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cross-Entropy</a>
         		</li>
       		
 		</ul>
@@ -656,7 +656,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">导向反向传播</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">总结</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -672,15 +676,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Cross-Entropy在[Demystifying Entropy](https://medium.com/activating-robotic-minds/demystifying-entropy-f2c3221e2550), Demystifying Cross-Entropy, Demystifying KL Divergence</a>
+                <a href="javascript:void(0)" class="js-tag color4">Cross-Entropy</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">总结</a>
+                <a href="javascript:void(0)" class="js-tag color2">导向反向传播</a>
               </li>
             
             <div class="clearfix"></div>
